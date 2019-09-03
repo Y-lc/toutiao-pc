@@ -5,7 +5,7 @@
         <div class="logo" :class="{'miniLogo':isCollapse}"></div>
         <!-- 导航菜单 -->
        <el-menu
-        default-active="/"
+          :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#002033"
         text-color="#fff"
@@ -18,7 +18,7 @@
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-menu-item index="/articr">
+        <el-menu-item index="/article">
           <i class="el-icon-document"></i>
           <span slot="title">内容管理</span>
         </el-menu-item>
@@ -38,7 +38,7 @@
           <i class="el-icon-present"></i>
           <span slot="title">粉丝管理</span>
         </el-menu-item>
-        <el-menu-item index="/seeting">
+        <el-menu-item index="setting">
           <i class="el-icon-setting"></i>
           <span slot="title">个人设置</span>
         </el-menu-item>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import eventBus from '@/components/eventBus'
 import store from '@/store'
 export default {
   data () {
@@ -85,6 +86,13 @@ export default {
     const user = store.getUser()
     this.name = user.name
     this.photo = user.photo
+    // 绑定事件 接受名字数据
+    eventBus.$on('updateName', (name) => {
+      this.name = name
+    })
+    eventBus.$on('updatePhoto', (photo) => {
+      this.photo = photo
+    })
   },
   methods: {
     // 设置页面
